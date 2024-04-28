@@ -16,6 +16,10 @@ namespace Fleet_Management.Data
         public virtual DbSet<VehicleInformation> VehicleInformations { get; set; }
         public virtual DbSet<RouteHistory> RouteHistories { get; set; }
         public virtual DbSet<Geofence> Geofences { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+
         // Define other DbSet properties for your other entities like CircleGeofence, RectangleGeofence, and PolygonGeofence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,7 +51,7 @@ namespace Fleet_Management.Data
                 .WithMany(v => v.RouteHistories)
                 .HasForeignKey(rh => rh.VehicleID);
 
-            // Configuration for Geofence
+            
             modelBuilder.Entity<Geofence>()
                 .HasKey(g => g.GeofenceID);
 
@@ -74,6 +78,44 @@ namespace Fleet_Management.Data
                 .HasOne(pg => pg.Geofence)
                 .WithMany(g => g.PolygonGeofences)
                 .HasForeignKey(pg => pg.GeofenceID);
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.UserId).HasName("User_pkey");
+
+                entity.ToTable("User");
+
+                entity.Property(e => e.UserId).HasColumnName("UserId");
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .HasColumnName("email");
+                entity.Property(e => e.PasswordHash)
+                    .HasMaxLength(255)
+                    .HasColumnName("passwordhash");
+                entity.Property(e => e.RoleId).HasColumnName("RoleId");  
+                entity.Property(e => e.Username)
+                    .HasMaxLength(255)
+                    .HasColumnName("username");
+
+                entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId) 
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_UserRole");
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.HasKey(e => e.RoleId).HasName("UserRole_pkey");
+
+                entity.ToTable("UserRole");
+
+                entity.Property(e => e.RoleId).HasColumnName("RoleId"); // إزالة المسافة الزائدة
+                entity.Property(e => e.RoleName)
+                    .HasMaxLength(255)
+                    .HasColumnName("rolename");
+            });
+
+
+
         }
 
 
