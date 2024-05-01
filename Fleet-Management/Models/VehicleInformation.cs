@@ -3,19 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fleet_Management.Models
 {
-  
-
     public class VehicleInformation
     {
         [Key]
         public long VehicleInformationID { get; set; }
 
-        // تعريف العلاقة بين VehicleInformation و Vehicle
+       
         [ForeignKey("Vehicle")]
         public long VehicleID { get; set; }
         public virtual Vehicle? Vehicle { get; set; }
 
-        // تعريف العلاقة بين VehicleInformation و Driver
+   
         [ForeignKey("Driver")]
         public long DriverID { get; set; }
         public virtual Driver? Driver { get; set; }
@@ -28,3 +26,5 @@ namespace Fleet_Management.Models
     }
 
 }
+
+
