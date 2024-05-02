@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Fleet_Management.VehicleInformationDto>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{
+    ViewData["Title"] = "Detailed Fleet Vehicles";
+}
+<!--<link rel="stylesheet" type="text/css" href="css/styles.css">-->
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Fleet Vehicles Information
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="vehicleInfoTable" class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Vehicle ID</th>
+                        <th>Driver Name</th>
+                        <th>Vehicle Make</th>
+                        <th>Vehicle Model</th>
+                        <th>Purchase Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted here using JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+<script src="~/js/loadVehicleInformation.js"></script>
+
+
+
+
