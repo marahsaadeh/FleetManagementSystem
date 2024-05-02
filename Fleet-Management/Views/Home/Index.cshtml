@@ -1,4 +1,11 @@
-﻿<div class="card mb-4">
+﻿@model IEnumerable<Fleet_Management.VehicleInformationDto>
+
+@{
+    ViewData["Title"] = "Detailed Fleet Vehicles";
+}
+<!--<link rel="stylesheet" type="text/css" href="css/styles.css">-->
+
+<div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
         Fleet Vehicles Information
@@ -23,3 +30,8 @@
     </div>
 </div>
 <script src="~/js/loadVehicleInformation.js"></script>
+
+
+
+
+

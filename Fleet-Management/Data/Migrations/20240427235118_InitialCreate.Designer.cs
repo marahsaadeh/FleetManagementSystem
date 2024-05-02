@@ -2,6 +2,7 @@
 using Fleet_Management.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fleet_Management.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240427235118_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,62 +181,6 @@ namespace Fleet_Management.Migrations
                     b.ToTable("RouteHistories");
                 });
 
-            modelBuilder.Entity("Fleet_Management.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("UserId");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("PasswordHash")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("passwordhash");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("RoleId");
-
-                    b.Property<string>("Username")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("username");
-
-                    b.HasKey("UserId")
-                        .HasName("User_pkey");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("User", (string)null);
-                });
-
-            modelBuilder.Entity("Fleet_Management.Models.UserRole", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("RoleId");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("rolename");
-
-                    b.HasKey("RoleId")
-                        .HasName("UserRole_pkey");
-
-                    b.ToTable("UserRole", (string)null);
-                });
-
             modelBuilder.Entity("Fleet_Management.Models.Vehicle", b =>
                 {
                     b.Property<long>("VehicleID")
@@ -330,17 +277,6 @@ namespace Fleet_Management.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("Fleet_Management.Models.User", b =>
-                {
-                    b.HasOne("Fleet_Management.Models.UserRole", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .IsRequired()
-                        .HasConstraintName("FK_User_UserRole");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("Fleet_Management.Models.VehicleInformation", b =>
                 {
                     b.HasOne("Fleet_Management.Models.Driver", "Driver")
@@ -372,11 +308,6 @@ namespace Fleet_Management.Migrations
                     b.Navigation("PolygonGeofences");
 
                     b.Navigation("RectangleGeofence");
-                });
-
-            modelBuilder.Entity("Fleet_Management.Models.UserRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Fleet_Management.Models.Vehicle", b =>
