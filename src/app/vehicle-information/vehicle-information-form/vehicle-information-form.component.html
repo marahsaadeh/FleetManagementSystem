@@ -1,0 +1,353 @@
+
+<style>
+  .btn-success {
+    background-color: #004D4D;
+}
+.btn-primary {
+    background-color: #429690; 
+}
+.btn-secondary {
+    background-color: #6c757d; 
+}
+.modal-content {
+    padding: 20px;
+}
+.form-group {
+    margin-bottom: 15px; 
+}
+.modal-header {
+    background-color: #f8f9fa; 
+}
+.small-text-table th, .small-text-table td {
+font-size: 12px; 
+}
+.small-button {
+       width: 250px;  
+            margin-top: 20px;  
+            margin-bottom: 1px; 
+            margin-left: 20px;
+font-size: 18px;  
+line-height: 1;   
+}
+</style>
+
+  <div class="card mb-4">
+    <div class="card-header py-3">
+      <h4 class="my-0 fw-bold">Vehicle Information Overview</h4>
+      <!-- Add Button -->
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addVehicleInfoModal">Add New Vehicle Info</button>
+
+      <!-- Modal for Adding Vehicle Information -->
+      <div class="modal fade" id="addVehicleInfoModal" tabindex="-1" role="dialog" aria-labelledby="addVehicleInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addVehicleInfoModalLabel">Add New Vehicle Information</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form #form="ngForm" (submit)="onSubmit(form)">
+
+                <input type="hidden" name="vehicleInformationID"  [(ngModel)]="vehicleInfoService.formDate.VehicleInformationID">
+            
+                <div class="mb-3">
+                
+                  <label for="vehicleNumber">Vehicle Number </label>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="vehicleNumber"
+                    placeholder="vehicle Number"
+                    #vehicleNumber="ngModel"
+                    name="vehicleNumber"
+                    [(ngModel)]="vehicleInfoService.formDate.VehicleNumber"
+                  >
+                </div>
+               
+                <div class="mb-3">
+                    <label for="VehicleMake">Vehicle Make</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      id="VehicleMake"
+                      placeholder="VehicleMake"
+                      #vehicleMake="ngModel"
+                      name="VehicleMake"
+                      [(ngModel)]="vehicleInfoService.formDate.VehicleMake"
+                    >
+                    
+                  </div>
+          
+                  <div class="mb-3">
+                    <label for="VehicleModel">Vehicle Model</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      id="VehicleModel"
+                      placeholder="VehicleModel"
+                      #vehicleModel="ngModel"
+                      name="VehicleModel"
+                      [(ngModel)]="vehicleInfoService.formDate.VehicleModel"
+                    >
+                 
+                  </div>
+                  <div class="mb-3">
+                    <label for="PurchaseDate">Purchase Date</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      id="PurchaseDate"
+                      placeholder="PurchaseDate"
+                      #purchaseDate="ngModel"
+                      name="PurchaseDate"
+                      [(ngModel)]="vehicleInfoService.formDate.PurchaseDate"
+                    >
+                    
+                  </div>
+             
+                  <div class="mb-3">
+            
+                    <input
+                      type="hidden"
+                      class="form-control form-control-lg"
+                      id="DriverID"
+                      placeholder="DriverID"
+                      #driverID="ngModel"
+                      name="DriverID"
+                      [(ngModel)]="vehicleInfoService.formDate.DriverID"
+                    >
+                    
+                  </div>
+                  <div class="mb-3">
+                    <div class="form-group">
+                      <label for="DriverID">Driver Name </label>
+                      <select id="DriverID" name="DriverID" class="form-control" [(ngModel)]="vehicleInfoService.formDate.DriverID">
+                        <option *ngFor="let driver of this.driverService.fullData" [value]="driver.DriverID">{{driver.DriverName}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="d-grid">
+                    <button class="btn btn-lg btn-success" type="submit">
+                      Submit
+                    </button>
+                  </div>
+            
+              </form>
+                        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body p-5">
+      <div class="table-responsive">
+        <table id="vehicleInfoTable" class="table table-striped table-hover table-bordered small-text-table">
+          <thead class="thead-light">
+        <tr>
+      
+          <th>Vehicle Number</th>
+          <th>Vehicle Type</th>
+          <th>Vehicle Make</th>
+          <th>Vehicle Model</th>
+       
+          <th>Driver Name</th>
+          <th>Phone Number</th>
+          <th>Purchase Date</th>
+          <th>Last Address</th>
+          <th>Last Position (Latitude, Longitude)</th>
+          <th>Last GPS Speed</th>
+          <th>Last GPS Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicleInfo of vehicleInformations">
+          
+          
+          <td>{{ vehicleInfo.VehicleNumber }}</td>
+          <td>{{ vehicleInfo.VehicleType }}</td>
+          <td>{{ vehicleInfo.VehicleMake }}</td>
+          <td>{{ vehicleInfo.VehicleModel }}</td>
+ 
+          <td>{{ vehicleInfo.DriverName }}</td>
+          <td>{{ vehicleInfo.PhoneNumber }}</td>
+       
+      
+        <td>{{vehicleInfo.PurchaseDate | date:'mediumDate' }}</td>
+
+          <td>{{ vehicleInfo.LastAddress }}</td>
+          <td>{{ vehicleInfo.LastPosition }}</td>
+          <td>{{ vehicleInfo.LastGPSSpeed }}</td>
+          <td>{{ vehicleInfo.LastGPSTime }}</td>
+          <td>           
+        
+            <button type="button" data-toggle="modal" data-target="#updateVehicleInfoModal" (click)="openModal(vehicleInfo)" class="btn btn-warning" style="background-color: transparent; color: #80FC80; border: none;">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button type="button" (click)="deleteVehicleInfo(vehicleInfo.VehicleInformationID)" style="background-color: transparent; color: #FF7F50; border: none;">
+              <i class="bi bi-x-circle-fill"></i>
+            </button>
+ 
+        
+        </td>
+        </tr>
+      </tbody>
+    </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Update Vehicle Information Modal -->
+<div class="modal fade" id="updateVehicleInfoModal" tabindex="-1" role="dialog" aria-labelledby="updateVehicleInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateVehicleInfoModalLabel">Update Vehicle Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm" (submit)="onSubmit(form)">
+
+          <input type="hidden" name="vehicleInformationID"  [(ngModel)]="vehicleInfoService.formDate.VehicleInformationID">
+      
+          <div class="mb-3">
+          
+            <label for="vehicleNumber">Vehicle Number </label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="vehicleNumber"
+              placeholder="vehicle Number"
+              #vehicleNumber="ngModel"
+              name="vehicleNumber"
+              [(ngModel)]="vehicleInfoService.formDate.VehicleNumber"
+            >
+          </div>
+         
+          <div class="mb-3">
+              <label for="VehicleMake">Vehicle Make</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="VehicleMake"
+                placeholder="VehicleMake"
+                #vehicleMake="ngModel"
+                name="VehicleMake"
+                [(ngModel)]="vehicleInfoService.formDate.VehicleMake"
+              >
+              
+            </div>
+    
+            <div class="mb-3">
+              <label for="VehicleModel">Vehicle Model</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="VehicleModel"
+                placeholder="VehicleModel"
+                #vehicleModel="ngModel"
+                name="VehicleModel"
+                [(ngModel)]="vehicleInfoService.formDate.VehicleModel"
+              >
+           
+            </div>
+            <div class="mb-3">
+              <label for="PurchaseDate">Purchase Date</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="PurchaseDate"
+                placeholder="PurchaseDate"
+                #purchaseDate="ngModel"
+                name="PurchaseDate"
+                [(ngModel)]="vehicleInfoService.formDate.PurchaseDate"
+              >
+              
+            </div>
+       
+            <div class="mb-3">
+            
+              <input
+                type="hidden"
+                class="form-control form-control-lg"
+                id="DriverID"
+                placeholder="DriverID"
+                #driverID="ngModel"
+                name="DriverID"
+                [(ngModel)]="vehicleInfoService.formDate.DriverID"
+              >
+              
+            </div>
+            <div class="mb-3">
+              <div class="form-group">
+                <label for="DriverID">Driver</label>
+                <select id="DriverID" name="DriverID" class="form-control" [(ngModel)]="vehicleInfoService.formDate.DriverID">
+                  <option *ngFor="let driver of this.driverService.fullData" [value]="driver.DriverID">{{driver.DriverName}}</option>
+                </select>
+              </div>
+            </div>
+            
+ 
+            <div class="d-grid">
+              <button class="btn btn-lg btn-success" type="submit">
+                Submit
+              </button>
+            </div>
+      
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Document text vs JSON Comparison
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="comparisonTable" class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>Document Text</th>
+              <th>Returned JSON Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <pre id="specificationField">
+  Vehicle Information ID
+  Vehicle ID
+  Vehicle Number
+  Vehicle Type
+  Vehicle Make
+  Vehicle Model
+  Driver ID
+  Driver Name
+  Phone Number
+  Purchase Date
+  Last Address
+  Last Position (Latitude, Longitude)
+  Last GPS Speed
+  Last GPS Time
+                </pre>
+              </td>
+              <td>
+                
+                <pre id="jsonDataDisplay">{{ fullData | json }}</pre>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

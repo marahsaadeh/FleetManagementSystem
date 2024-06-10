@@ -1,0 +1,152 @@
+<style>
+    .btn-success {
+      background-color: #004D4D; 
+  }
+  .btn-primary {
+      background-color: #429690; 
+  }
+  .btn-secondary {
+      background-color: #6c757d; 
+  }
+  .modal-content {
+      padding: 20px; 
+  }
+  .form-group {
+      margin-bottom: 15px; 
+  }
+  .modal-header {
+      background-color: #f8f9fa;
+  }
+  .small-text-table th, .small-text-table td {
+  font-size: 12px; 
+  }
+  .small-button {
+         width: 250px;
+              margin-top: 20px;  
+              margin-bottom: 1px; 
+              margin-left: 20px;
+  font-size: 18px;  
+  line-height: 1;   
+  }
+  </style>
+
+<div class="drivers-table" [ngStyle]="{'margin-left': isSidebarOpen ? '1px' : '0', 'width': isSidebarOpen ? 'calc(100% - 10px)' : '98%'}">
+
+<div class="card mb-4">
+    <div class="card-header py-3">
+      <h4 class="my-0 fw-bold">Driver Overview</h4>
+      <!-- Add Button -->
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addDriverModal">Add New Driver</button>
+  
+      <!-- Modal for Adding Driver Information -->
+      <div class="modal fade" id="addDriverModal" tabindex="-1" role="dialog" aria-labelledby="addDriverModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addDriverModalLabel">Add New Driver</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <app-drivers-form (driverAdded)="onDriverAdded($event)"></app-drivers-form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card-body p-5">
+      <div class="table-responsive">
+        <table id="driverTable" class="table table-striped table-hover table-bordered small-text-table">
+          <thead class="thead-light">
+            <tr>
+              <th>Driver ID</th>
+              <th>Driver Name</th>
+              <th>Phone Number</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let driver of drivers">
+              <td>{{ driver.DriverID }}</td>
+              <td>{{ driver.DriverName }}</td>
+              <td>{{ driver.PhoneNumber }}</td>
+              <td>           
+                <!-- Buttons for actions -->
+                <button type="button" data-toggle="modal" data-target="#updateDriverModal" (click)="openModal(driver)" class="btn btn-warning" style="background-color: transparent; color: #80FC80; border: none;">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button type="button" (click)="deleteDriver(driver.DriverID)" style="background-color: transparent; color: #FF7F50; border: none;">
+                  <i class="bi bi-x-circle-fill"></i>
+                </button>
+     
+            
+            </td>
+            </tr>
+          </tbody>
+        </table>
+      
+        
+    </div>
+  </div>
+
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateDriverModal" tabindex="-1" role="dialog" aria-labelledby="updateDriverModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="updateDriverModalLabel">Update Driver</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <app-drivers-form (driverAdded)="onDriverAdded($event)"></app-drivers-form>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="card mb-4">
+  <div class="card-header">
+    <i class="fas fa-table me-1"></i>
+    Document Text vs JSON Comparison
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table id="comparisonTable" class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Document Text</th>
+            <th>Returned JSON Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <pre id="specificationField">
+                Driver ID
+                Driver Name
+                Phone Number
+              
+              </pre>
+            </td>
+            <td>
+              <pre id="jsonDataDisplay">{{ fullData | json }}</pre>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

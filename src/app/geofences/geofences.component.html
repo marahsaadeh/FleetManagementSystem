@@ -1,0 +1,103 @@
+
+<style>
+    .btn-success {
+      background-color: #004D4D; 
+  }
+  .btn-primary {
+      background-color: #429690; 
+  }
+  .btn-secondary {
+      background-color: #6c757d;
+  }
+  .modal-content {
+      padding: 20px; 
+  }
+  .form-group {
+      margin-bottom: 15px; 
+  }
+  .modal-header {
+      background-color: #f8f9fa; 
+  }
+  .small-text-table th, .small-text-table td {
+  font-size: 12px; 
+  }
+  .small-button {
+         width: 250px;  
+              margin-top: 20px;  
+              margin-bottom: 1px; 
+              margin-left: 20px;
+  font-size: 18px;   
+  line-height: 1;    
+  }
+  </style>
+
+<div class="container mt-4">
+  
+
+  <ul class="nav nav-tabs" id="geofencesTabs" role="tablist">
+      <li class="nav-item">
+          <a class="nav-link active" id="geofences-tab" data-toggle="tab" [routerLink]="['/geofences/all']" role="tab" aria-controls="geofences" aria-selected="true">Geofences</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="circleGeofences-tab" data-toggle="tab" [routerLink]="['/geofences/circle']" role="tab" aria-controls="circleGeofences" aria-selected="false">Circle Geofences</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="rectangleGeofences-tab" data-toggle="tab" [routerLink]="['/geofences/rectangle']" role="tab" aria-controls="rectangleGeofences" aria-selected="false">Rectangle Geofences</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="polygonGeofences-tab" data-toggle="tab" [routerLink]="['/geofences/polygon']" role="tab" aria-controls="polygonGeofences" aria-selected="false">Polygon Geofences</a>
+      </li>
+  </ul>
+
+  <div class="tab-content mt-3" id="geofencesTabsContent">
+      <div class="tab-pane fade show active" id="geofences" role="tabpanel" aria-labelledby="geofences-tab">
+          <table id="geofencesTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
+              <thead>
+                  <tr>
+                      <th>GeofenceID</th>
+                      <th *ngIf="type === 'all'">GeofenceType</th>
+                      <th *ngIf="type === 'all'">AddedDate</th>
+                      <th *ngIf="type === 'all'">StrokeColor</th>
+                      <th *ngIf="type === 'all'">StrokeOpacity</th>
+                      <th *ngIf="type === 'all'">StrokeWeight</th>
+                      <th *ngIf="type === 'all'">FillColor</th>
+                      <th *ngIf="type === 'all'">FillOpacity</th>
+                      <th *ngIf="type === 'rectangle'">North</th>
+                      <th *ngIf="type === 'rectangle'">East</th>
+                      <th *ngIf="type === 'rectangle'">West</th>
+                      <th *ngIf="type === 'rectangle'">South</th>    
+                      <th *ngIf="type === 'circle'">Radius</th>
+                      <th *ngIf="type === 'circle' || type === 'polygon'">Latitude</th>
+                      <th *ngIf="type === 'circle' || type === 'polygon'">Longitude</th>
+                  </tr>
+              </thead>
+              <tbody>
+           
+                <tr *ngFor="let geof of geofences">
+                  <td >{{ geof.GeofenceID }}</td>
+                  <td *ngIf="type === 'all'">{{ geof.GeofenceType }}</td>
+                  <td *ngIf="type === 'all'">{{ geof.AddedDate }}</td>
+                  <td *ngIf="type === 'all'">{{ geof.StrokeColor }}</td>
+                  <td *ngIf="type === 'all'">{{ geof.StrokeOpacity }}</td>
+                  <td *ngIf="type === 'all'">{{ geof.StrokeWeight }}</td>
+                  <td *ngIf="type === 'all'">{{ geof.FillColor }}</td>
+                  <td *ngIf="type === 'all'">{{ geof.FillOpacity }}</td>
+                  <td *ngIf="type === 'circle'">{{ geof.Radius }}</td>
+                  <td *ngIf="type === 'circle'|| type === 'polygon'">{{ geof.Latitude }}</td>
+                  <td *ngIf="type === 'circle'|| type === 'polygon'">{{ geof.Longitude }}</td>
+
+                  
+                  <td *ngIf="type === 'rectangle'">{{ geof.North }}</td>
+                  <td *ngIf="type === 'rectangle'">{{ geof.East }}</td>
+                  <td *ngIf="type === 'rectangle'">{{ geof.West }}</td>
+                  <td *ngIf="type === 'rectangle'">{{ geof.South }}</td>
+                
+                </tr>
+              </tbody>
+          </table>
+       </div>
+    </div>
+  </div>
+
+         
+    

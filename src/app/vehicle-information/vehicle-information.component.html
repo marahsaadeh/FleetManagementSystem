@@ -1,0 +1,26 @@
+<div *ngIf="vehicleInfo" class="card">
+  <div class="card-header" style="background-color: #014E4D; color: white;">
+    <h2 class="card-title">Vehicle Information</h2>
+  </div>
+  <div class="card-body" style="background-color: white;">
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Vehicle Number:</strong> {{ vehicleInfo.VehicleNumber }}</p>
+        <p><strong>Vehicle Type:</strong> {{ vehicleInfo.VehicleType }}</p>
+        <p><strong>Driver Name:</strong> {{ vehicleInfo.DriverName }}</p>
+        <p><strong>Phone Number:</strong> {{ vehicleInfo.PhoneNumber }}</p>
+        <p><strong>Last Position:</strong> {{ vehicleInfo.LastPosition }}</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Vehicle Make:</strong> {{ vehicleInfo.VehicleMake }}</p>
+        <p><strong>Vehicle Model:</strong> {{ vehicleInfo.VehicleModel }}</p>
+        <p><strong>Last GPS Time:</strong> {{ vehicleInfo.LastGPSTime }}</p>
+        <p><strong>Last GPS Speed:</strong> {{ vehicleInfo.LastGPSSpeed }}</p>
+        <p><strong>Last Address:</strong> {{ vehicleInfo.LastAddress }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
