@@ -1,0 +1,55 @@
+
+
+<form #form="ngForm" (submit)="onSubmit(form)">
+
+    <input type="hidden" name="driverID"  [(ngModel)]="service.formDate.DriverID">
+
+    <div class="mb-3">
+      <label for="driverName">Driver Name</label>
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        id="driverName"
+        placeholder="driver Name"
+        #driverName="ngModel"
+        name="driverName"
+        [(ngModel)]="service.formDate.DriverName"
+      >
+    </div>
+
+    <div class="mb-3">
+        <label for="PhoneNumber">Driver PhoneNumber</label>
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          id="PhoneNumber"
+          placeholder="PhoneNumber"
+          #vehicleType="ngModel"
+          name="PhoneNumber"
+          [(ngModel)]="service.formDate.PhoneNumber"
+        >
+        
+      </div>
+ 
+    
+
+      <div class="d-grid">
+        <button class="btn btn-lg btn-success" type="submit">
+          Submit
+        </button>
+      </div>
+
+  </form>
+  <ng-template #updateVehicleModal let-modal="close">  
+    <div class="modal-header">
+      <h4 class="modal-title">Update driver</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    
+    </div>
+  
+  </ng-template>
+

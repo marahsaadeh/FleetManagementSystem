@@ -1,0 +1,179 @@
+
+<style>
+      .btn-success {
+        background-color: #004D4D;
+    }
+    .btn-primary {
+        background-color: #429690; 
+    }
+    .btn-secondary {
+        background-color: #6c757d; 
+    }
+    .modal-content {
+        padding: 20px; 
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .modal-header {
+        background-color: #f8f9fa; 
+    }
+    .small-text-table th, .small-text-table td {
+    font-size: 12px; 
+  }
+    .small-button {
+           width: 250px; 
+                margin-top: 20px; 
+                margin-bottom: 1px; 
+                margin-left: 20px;
+    font-size: 18px;   
+    line-height: 1;    
+}
+</style>
+vehicles.component.html
+
+<div class="vehicles-table" [ngStyle]="{'margin-left': isSidebarOpen ? '1px' : '0', 'width': isSidebarOpen ? 'calc(100% - 10px)' : '98%'}">
+  <div class="card mb-4">
+    <div class="card-header py-3">
+
+      <h4 class="my-0 fw-bold">Vehicles Overview</h4>
+
+      <!-- Add Button -->
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addVehicleModal">Add New Vehicle</button>
+
+      <!-- Modal Button-->
+<div class="modal fade" id="addVehicleModal" tabindex="-1" role="dialog" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addVehicleModalLabel">Add New Vehicle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <app-vehicle-form (vehicleAdded)="onVehicleAdded($event)"></app-vehicle-form>
+
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+    </div>
+    <div class="card-body p-5">
+      <div class="table-responsive">
+        <table id="vehicleInfoTable" class="table table-striped table-hover table-bordered small-text-table">
+          <thead class="thead-light">
+              <tr>
+                  <th>Vehicle ID</th>
+                  <th>Vehicle Number</th>
+                  <th>Vehicle Type</th>
+                  <th>Last Status</th>
+                  <th>Last Direction</th>
+                  <th>Last Address</th>
+                  <th>Latitude</th> 
+                  <th>Longitude</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let vehicle of service.list">
+                  <td>{{ vehicle.VehicleID }}</td>
+                  <td>{{ vehicle.VehicleNumber }}</td>
+                  <td>{{ vehicle.VehicleType }}</td>
+                  <td>{{ vehicle.LastStatus }}</td>
+                  <td>{{ vehicle.LastDirection }}</td>
+                  <td>{{ vehicle.LastAddress }}</td>
+                  
+                  <td>{{ (vehicle.LastPosition && vehicle.LastPosition.split(', ')[0]) || 'N/A' }}</td>
+                  <td>{{ (vehicle.LastPosition && vehicle.LastPosition.split(', ')[1]) || 'N/A' }}</td>
+                  <td>           
+                    <!-- Buttons for actions -->
+                    <button type="button" data-toggle="modal" data-target="#updateVehicleModal" (click)="openModal(vehicle)" class="btn btn-warning" style="background-color: transparent; color: #80FC80; border: none;">
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button type="button" (click)="deleteVehicle(vehicle.VehicleID)" style="background-color: transparent; color: #FF7F50; border: none;">
+                      <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                 
+                <button class="btn btn-info" (click)="showVehicleInfo(vehicle.VehicleID)" title="Show More" style="background-color: transparent; color: #FFFA77; border: none;">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      
+        
+      </div>
+    </div>
+
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateVehicleModal" tabindex="-1" role="dialog" aria-labelledby="updateVehicleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="updateVehicleModalLabel">Update Vehicle</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <app-vehicle-form (vehicleAdded)="onVehicleAdded($event)"></app-vehicle-form>
+          </div>
+      </div>
+  </div>
+</div>
+
+  </div>
+  
+
+
+
+</div>
+
+
+
+
+
+<div class="card mb-4">
+  <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Document text vs JSON Comparison
+  </div>
+  <div class="card-body">
+      <div class="table-responsive">
+          <table id="comparisonTable" class="table table-striped table-hover table-bordered">
+              <thead>
+                  <tr>
+                      <th>Document text</th>
+                      <th>Returned JSON Value (What is shown when examined in Postman)</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>
+                          <pre id="specificationField">
+VehicleID
+VehicleNumber
+VehicleType
+LastDirection
+LastStatus
+LastAddress
+LastPosition (including LastLatitude and LastLongitude)
+                          </pre>
+                      </td>
+                      <td>
+                          <pre id="jsonDataDisplay">{{ service.fullData | json }}</pre>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>

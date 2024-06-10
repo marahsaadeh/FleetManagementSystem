@@ -1,0 +1,136 @@
+<style>
+    
+#layoutSidenav_content {
+    padding-top: 70px; 
+    margin-left: 250px;
+    width: calc(100% - 250px); 
+    position: relative;
+
+}
+.container-fluid {
+    max-width: 100%;
+}
+
+.container-fluid {
+    padding-right: 15px;  
+    padding-left: 15px;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; 
+    justify-content: space-between;
+    margin-right: 9px;
+    margin-left: 250px;
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+
+.card {
+    flex: 1 0 21%; 
+  
+    min-width: 250px; 
+}
+
+.card {
+    background-color: #fff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    
+    transition: transform 0.3s; 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+.col-xl-3.col-sm-6.mb-3 {
+    padding: 20px; 
+}
+
+
+.card-container {
+  margin-bottom: 20px;  
+}
+
+p {
+  text-align: center; 
+  font-size: 18px;     
+}
+
+.card {
+    background-color: #fff; 
+ 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+.card-body {
+    padding: 20px;
+    color: #333; 
+}
+
+.card-body-icon {
+    font-size: 2rem; 
+    opacity: 0.5; 
+}
+
+</style>
+<!-- Dashboard Cards -->
+
+<div id="layoutSidenav">
+
+
+        <div class="row" [ngStyle]="{'margin-left': isSidebarOpen ? '250px' : '100px'}">
+          
+
+  
+    <div class="col-xl-3 col-sm-6 mb-3" >
+        
+        <div class="card text-white bg-primary o-hidden h-100" >
+            <div class="card-body" style="background-color:#429690;" >
+                <div class="card-body-icon" >
+                    <i class="fas fa-fw fa-car"></i>
+                </div>
+                <div class="mr-5" id="totalVehicles">{{totalVehicles}} Vehicles Total</div>
+            </div>
+         
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-warning o-hidden h-100">
+            <div class="card-body" style="background-color: #98FF98;">
+                          <div class="card-body-icon">
+                    <i class="bi bi-clipboard2-fill"></i>
+                </div>
+                <div class="mr-5" id="maintenanceVehicles">{{totalVehicleInformation}} Vehicle Informations Total</div>
+            </div>
+          
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-success o-hidden h-100">
+            <div class="card-body" style="background-color: #FF7F50;">
+                <div class="card-body-icon">
+                    <i class="fas fa-fw fa-road"></i>
+                </div>
+                <div class="mr-5" id="onTripVehicles">{{totalRouteHistories}} Route Histories Total</div>
+            </div>
+          
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-danger o-hidden h-100" >
+            <div class="card-body" style="background-color: #FFFDC6;">
+                <div class="card-body-icon">
+                    <i class="bi bi-geo-fill"></i>
+                </div>
+                <div class="mr-5" id="alerts">{{totalGeofences}} Geofences Total</div>
+            </div>
+          
+        </div>
+    </div>
+</div>
+        </div>
+ 
+

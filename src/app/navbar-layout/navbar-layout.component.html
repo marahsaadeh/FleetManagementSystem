@@ -1,0 +1,36 @@
+<style>
+#layoutSidenav {
+    display: flex;
+  }
+  
+  #layoutSidenav_nav {
+    flex: 0 0 250px; 
+  }
+  
+  #layoutSidenav_content {
+    flex-grow: 1; 
+    padding-left: 20px; 
+  }
+  .navbar {
+    position: fixed; 
+    top: 0;         
+    width: 100%;    
+    z-index: 1030;   
+}
+
+body {
+    padding-top: 56px; 
+}
+
+
+  </style>
+  
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand ps-3">Fleet Management</a>
+    <button (click)="toggleSidebar()" class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
+      <i class="fas fa-bars"></i>
+    </button>  
+</nav>
+
+
+

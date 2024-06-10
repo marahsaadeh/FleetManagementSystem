@@ -161,6 +161,8 @@ nCrunchTemp_*
 AutoTest.Net/
 
 # Web workbench (sass)
+# Miscellaneous
+/.angular/cache
 .sass-cache/
 
 # Installshield output folder
