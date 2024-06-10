@@ -1,0 +1,278 @@
+﻿@{
+    ViewData["Title"] = "Geofences Information";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+ <div class="container mt-4">
+    <h2>Geofences Information</h2>
+
+    <ul class="nav nav-tabs" id="geofencesTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="geofences-tab" data-toggle="tab" href="#geofences" role="tab" aria-controls="geofences" aria-selected="true">Geofences</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="circleGeofences-tab" data-toggle="tab" href="#circleGeofences" role="tab" aria-controls="circleGeofences" aria-selected="false">Circle Geofences</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="rectangleGeofences-tab" data-toggle="tab" href="#rectangleGeofences" role="tab" aria-controls="rectangleGeofences" aria-selected="false">Rectangle Geofences</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="polygonGeofences-tab" data-toggle="tab" href="#polygonGeofences" role="tab" aria-controls="polygonGeofences" aria-selected="false">Polygon Geofences</a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="geofencesTabsContent">
+        <div class="tab-pane fade show active" id="geofences" role="tabpanel" aria-labelledby="geofences-tab">
+            <table id="geofencesTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>GeofenceID</th>
+                        <th>GeofenceType</th>
+                        <th>AddedDate</th>
+                        <th>StrokeColor</th>
+                        <th>StrokeOpacity</th>
+                        <th>StrokeWeight</th>
+                        <th>FillColor</th>
+                        <th>FillOpacity</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="container mt-4">
+                <h2>Document text vs JSON Comparison</h2>
+                <table class="table table-striped table-hover table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Document Requirements</th>
+                            <th style="width: 50%;">Returned JSON</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre id="geofencesSpecificationField">
+1. GeofenceID
+2. GeofenceType
+3. AddedDate
+4. StrokeColor
+5. StrokeOpacity
+6. StrokeWeight
+7. FillColor
+8. FillOpacity
+                                </pre>
+                            </td>
+                            <td>
+                                <pre id="geofencesJsonDataDisplay"></pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="circleGeofences" role="tabpanel" aria-labelledby="circleGeofences-tab">
+            <table id="circleGeofencesTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>GeofenceID</th>
+                        <th>Radius</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="container mt-4">
+                <h2>Document text vs JSON Comparison</h2>
+                <table class="table table-striped table-hover table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Document Requirements</th>
+                            <th style="width: 50%;">Returned JSON</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre id="circleGeofencesSpecificationField">
+1. GeofenceID
+2. Radius
+3. Latitude
+4. Longitude
+                                </pre>
+                            </td>
+                            <td>
+                                <pre id="circleGeofencesJsonDataDisplay"></pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="rectangleGeofences" role="tabpanel" aria-labelledby="rectangleGeofences-tab">
+            <table id="rectangleGeofencesTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>GeofenceID</th>
+                        <th>North</th>
+                        <th>East</th>
+                        <th>West</th>
+                        <th>South</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="container mt-4">
+                <h2>Document text vs JSON Comparison</h2>
+                <table class="table table-striped table-hover table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Document Requirements</th>
+                            <th style="width: 50%;">Returned JSON</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre id="rectangleGeofencesSpecificationField">
+1. GeofenceID
+2. North
+3. East
+4. West
+5. South
+                                </pre>
+                            </td>
+                            <td>
+                                <pre id="rectangleGeofencesJsonDataDisplay"></pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="polygonGeofences" role="tabpanel" aria-labelledby="polygonGeofences-tab">
+            <table id="polygonGeofencesTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>GeofenceID</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+     
+            <div class="container mt-4">
+                <h2>Document text vs JSON Comparison</h2>
+                <table class="table table-striped table-hover table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Document Requirements</th>
+                            <th style="width: 50%;">Returned JSON</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre id="polygonGeofencesSpecificationField">
+1. GeofenceID
+2. Latitude
+3. Longitude
+                                </pre>
+                            </td>
+                            <td>
+                                <pre id="polygonGeofencesJsonDataDisplay"></pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const geofencesApiUrl = 'https://localhost:7062/api/Geofence/GetAllGeofences';
+            const circleGeofencesApiUrl = 'https://localhost:7062/api/Geofence/GetAllCircleGeofences';
+            const rectangleGeofencesApiUrl = 'https://localhost:7062/api/Geofence/GetAllRectangleGeofences';
+            const polygonGeofencesApiUrl = 'https://localhost:7062/api/Geofence/GetAllPolygonGeofences';
+
+            // Initialize DataTables
+            const geofencesTable = $('#geofencesTable').DataTable({
+                columns: [
+                    { data: 'GeofenceID' },
+                    { data: 'GeofenceType' },
+                    { data: 'AddedDate' },
+                    { data: 'StrokeColor' },
+                    { data: 'StrokeOpacity' },
+                    { data: 'StrokeWeight' },
+                    { data: 'FillColor' },
+                    { data: 'FillOpacity' }
+                ]
+            });
+            const circleGeofencesTable = $('#circleGeofencesTable').DataTable({
+                columns: [
+                    { data: 'GeofenceID' },
+                    { data: 'Radius' },
+                    { data: 'Latitude' },
+                    { data: 'Longitude' }
+                ]
+            });
+            const rectangleGeofencesTable = $('#rectangleGeofencesTable').DataTable({
+                columns: [
+                    { data: 'GeofenceID' },
+                    { data: 'North' },
+                    { data: 'East' },
+                    { data: 'West' },
+                    { data: 'South' }
+                ]
+            });
+            const polygonGeofencesTable = $('#polygonGeofencesTable').DataTable({
+                columns: [
+                    { data: 'GeofenceID' },
+                    { data: 'Latitude' },
+                    { data: 'Longitude' }
+                ]
+            });
+
+            // JSON Data Display Elements
+            const geofencesJsonDataDisplay = document.querySelector('#geofencesJsonDataDisplay');
+            const circleGeofencesJsonDataDisplay = document.querySelector('#circleGeofencesJsonDataDisplay');
+            const rectangleGeofencesJsonDataDisplay = document.querySelector('#rectangleGeofencesJsonDataDisplay');
+            const polygonGeofencesJsonDataDisplay = document.querySelector('#polygonGeofencesJsonDataDisplay');
+
+            function fetchAndUpdateData(apiUrl, dataTable, jsonDataDisplay) {
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const key = Object.keys(data.DicOfDT)[0];
+                        const items = data.DicOfDT[key];
+                        dataTable.clear().rows.add(items).draw();
+                        jsonDataDisplay.textContent = JSON.stringify(data, null, 2);
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        alert('Error fetching geofences data.');
+                    });
+            }
+
+            // Fetch data for each DataTable
+            fetchAndUpdateData(geofencesApiUrl, geofencesTable, geofencesJsonDataDisplay);
+            fetchAndUpdateData(circleGeofencesApiUrl, circleGeofencesTable, circleGeofencesJsonDataDisplay);
+            fetchAndUpdateData(rectangleGeofencesApiUrl, rectangleGeofencesTable, rectangleGeofencesJsonDataDisplay);
+            fetchAndUpdateData(polygonGeofencesApiUrl, polygonGeofencesTable, polygonGeofencesJsonDataDisplay);
+        });
+    </script>
+}

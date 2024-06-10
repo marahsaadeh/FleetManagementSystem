@@ -2,6 +2,7 @@
 using Fleet_Management.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fleet_Management.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240428121844_AddUserAndRoles")]
+    partial class AddUserAndRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,14 +29,11 @@ namespace Fleet_Management.Migrations
                     b.Property<long>("ID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("GeofenceID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
 
                     b.Property<long>("Radius")
                         .HasColumnType("bigint");
@@ -76,8 +76,8 @@ namespace Fleet_Management.Migrations
                     b.Property<string>("FillColor")
                         .HasColumnType("text");
 
-                    b.Property<double>("FillOpacity")
-                        .HasColumnType("double precision");
+                    b.Property<int>("FillOpacity")
+                        .HasColumnType("integer");
 
                     b.Property<string>("GeofenceType")
                         .HasColumnType("text");
@@ -85,11 +85,11 @@ namespace Fleet_Management.Migrations
                     b.Property<string>("StrokeColor")
                         .HasColumnType("text");
 
-                    b.Property<double>("StrokeOpacity")
-                        .HasColumnType("double precision");
+                    b.Property<int>("StrokeOpacity")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("StrokeWeight")
-                        .HasColumnType("real");
+                    b.Property<int>("StrokeWeight")
+                        .HasColumnType("integer");
 
                     b.HasKey("GeofenceID");
 
@@ -107,11 +107,11 @@ namespace Fleet_Management.Migrations
                     b.Property<long>("GeofenceID")
                         .HasColumnType("bigint");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
 
                     b.HasKey("ID");
 
@@ -125,20 +125,17 @@ namespace Fleet_Management.Migrations
                     b.Property<long>("ID")
                         .HasColumnType("bigint");
 
-                    b.Property<float>("East")
-                        .HasColumnType("real");
+                    b.Property<int>("East")
+                        .HasColumnType("integer");
 
-                    b.Property<long>("GeofenceID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("North")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("North")
-                        .HasColumnType("real");
+                    b.Property<int>("South")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("South")
-                        .HasColumnType("real");
-
-                    b.Property<float>("West")
-                        .HasColumnType("real");
+                    b.Property<int>("West")
+                        .HasColumnType("integer");
 
                     b.HasKey("ID");
 
@@ -156,14 +153,14 @@ namespace Fleet_Management.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<long>("Epoch")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
+                    b.Property<string>("RecordTime")
+                        .HasColumnType("text");
 
                     b.Property<char>("Status")
                         .HasColumnType("character(1)");

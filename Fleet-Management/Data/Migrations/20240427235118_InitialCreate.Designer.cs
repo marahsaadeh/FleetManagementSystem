@@ -2,6 +2,7 @@
 using Fleet_Management.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fleet_Management.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240427235118_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,14 +29,11 @@ namespace Fleet_Management.Migrations
                     b.Property<long>("ID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("GeofenceID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
 
                     b.Property<long>("Radius")
                         .HasColumnType("bigint");
@@ -76,8 +76,8 @@ namespace Fleet_Management.Migrations
                     b.Property<string>("FillColor")
                         .HasColumnType("text");
 
-                    b.Property<double>("FillOpacity")
-                        .HasColumnType("double precision");
+                    b.Property<int>("FillOpacity")
+                        .HasColumnType("integer");
 
                     b.Property<string>("GeofenceType")
                         .HasColumnType("text");
@@ -85,11 +85,11 @@ namespace Fleet_Management.Migrations
                     b.Property<string>("StrokeColor")
                         .HasColumnType("text");
 
-                    b.Property<double>("StrokeOpacity")
-                        .HasColumnType("double precision");
+                    b.Property<int>("StrokeOpacity")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("StrokeWeight")
-                        .HasColumnType("real");
+                    b.Property<int>("StrokeWeight")
+                        .HasColumnType("integer");
 
                     b.HasKey("GeofenceID");
 
@@ -107,11 +107,11 @@ namespace Fleet_Management.Migrations
                     b.Property<long>("GeofenceID")
                         .HasColumnType("bigint");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
 
                     b.HasKey("ID");
 
@@ -125,20 +125,17 @@ namespace Fleet_Management.Migrations
                     b.Property<long>("ID")
                         .HasColumnType("bigint");
 
-                    b.Property<float>("East")
-                        .HasColumnType("real");
+                    b.Property<int>("East")
+                        .HasColumnType("integer");
 
-                    b.Property<long>("GeofenceID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("North")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("North")
-                        .HasColumnType("real");
+                    b.Property<int>("South")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("South")
-                        .HasColumnType("real");
-
-                    b.Property<float>("West")
-                        .HasColumnType("real");
+                    b.Property<int>("West")
+                        .HasColumnType("integer");
 
                     b.HasKey("ID");
 
@@ -156,14 +153,14 @@ namespace Fleet_Management.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<long>("Epoch")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
+                    b.Property<string>("RecordTime")
+                        .HasColumnType("text");
 
                     b.Property<char>("Status")
                         .HasColumnType("character(1)");
@@ -182,62 +179,6 @@ namespace Fleet_Management.Migrations
                     b.HasIndex("VehicleID");
 
                     b.ToTable("RouteHistories");
-                });
-
-            modelBuilder.Entity("Fleet_Management.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("UserId");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("PasswordHash")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("passwordhash");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("RoleId");
-
-                    b.Property<string>("Username")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("username");
-
-                    b.HasKey("UserId")
-                        .HasName("User_pkey");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("User", (string)null);
-                });
-
-            modelBuilder.Entity("Fleet_Management.Models.UserRole", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("RoleId");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("rolename");
-
-                    b.HasKey("RoleId")
-                        .HasName("UserRole_pkey");
-
-                    b.ToTable("UserRole", (string)null);
                 });
 
             modelBuilder.Entity("Fleet_Management.Models.Vehicle", b =>
@@ -336,17 +277,6 @@ namespace Fleet_Management.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("Fleet_Management.Models.User", b =>
-                {
-                    b.HasOne("Fleet_Management.Models.UserRole", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .IsRequired()
-                        .HasConstraintName("FK_User_UserRole");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("Fleet_Management.Models.VehicleInformation", b =>
                 {
                     b.HasOne("Fleet_Management.Models.Driver", "Driver")
@@ -378,11 +308,6 @@ namespace Fleet_Management.Migrations
                     b.Navigation("PolygonGeofences");
 
                     b.Navigation("RectangleGeofence");
-                });
-
-            modelBuilder.Entity("Fleet_Management.Models.UserRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Fleet_Management.Models.Vehicle", b =>

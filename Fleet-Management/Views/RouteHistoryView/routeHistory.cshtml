@@ -1,0 +1,180 @@
+﻿<!--https://localhost:7062/RouteHistory -->
+@{
+    ViewData["Title"] = "Route History";
+}
+
+<div class="container mt-4">
+    <h2>Route History Information</h2>
+    <table id="routeHistoryTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Vehicle ID</th>
+                <th>Vehicle Number</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Vehicle Direction</th>
+                <th>GPSSpeed</th>
+                <th>GPSTime</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<div class="container mt-4">
+    <h2>Document text vs JSON Comparison</h2>
+    <table id="comparisonTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
+        <thead>
+            <tr>
+                <th style="width: 50%;">Document Requirements</th>
+                <th style="width: 50%;">Returned JSON</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <pre id="specificationField">
+1. VehicleID
+2. VehicleNumber
+3. Address
+4. Status
+5. Latitude
+6. Longitude
+7. VehicleDirection
+8. GPSSpeed
+9. GPSTime
+                    </pre>
+                </td>
+                <td>
+                    <pre id="jsonDataDisplay"></pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container mt-4">
+    <h2>Add New Route History</h2>
+
+    <form id="addRouteHistoryForm">
+        <input type="hidden" name="routeHistoryID" value="10">
+        <input type="hidden" name="vehicleID" value="1">
+        <div class="form-group">
+            <label>Vehicle Direction</label>
+            <input type="number" class="form-control" name="vehicleDirection" required>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <input type="text" class="form-control" name="status" required>
+        </div>
+
+        <div class="form-group">
+            <label>GPS Speed</label>
+            <input type="text" class="form-control" name="vehicleSpeed" required>
+
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="form-control" name="address" required>
+        </div>
+      
+        <div class="form-group">
+            <label>Latitude</label>
+            <input type="number" step="any" class="form-control" name="latitude" required>
+        </div>
+        <div class="form-group">
+            <label>Longitude</label>
+            <input type="number" step="any" class="form-control" name="longitude" required>
+        </div>
+     
+        <div class="form-group">
+            <label>GPS Time</label>
+            <input type="datetime-local" class="form-control" name="gpsTime" required>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Add Route History</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.18/signalr.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const apiUrl = 'https://localhost:7062/api/RouteHistory/GetAll';
+            const tableBody = document.querySelector('#routeHistoryTable tbody');
+            const jsonDataDisplay = document.querySelector('#jsonDataDisplay');
+            const connection = new signalR.HubConnectionBuilder().withUrl("/routeHistoryHub").build();
+
+            function updateTable(data) {
+                tableBody.innerHTML = '';
+                data.DicOfDT.RouteHistories.forEach(item => {
+                    const gpsTime = new Date(item.GPSTime).toLocaleString();
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                                <td>${item.VehicleID}</td>
+                                <td>${item.VehicleNumber}</td>
+                                <td>${item.Address}</td>
+                                <td>${item.Status}</td>
+                                <td>${item.Latitude}</td>
+                                <td>${item.Longitude}</td>
+                                <td>${item.VehicleDirection}</td>
+                                <td>${item.GPSSpeed}</td>
+                                <td>${gpsTime}</td>
+                            `;
+                    tableBody.appendChild(row);
+                });
+                jsonDataDisplay.textContent = JSON.stringify(data, null, 2);
+            }
+
+            function fetchDataAndUpdate() {
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(updateTable)
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        alert('Error fetching route history data.');
+                    });
+            }
+
+            fetchDataAndUpdate();
+
+
+            connection.on("ReceiveMessage", function (message) {
+                alert(`Notification: ${message}`);
+                fetchDataAndUpdate();
+            });
+
+            connection.start().catch(err => console.error('SignalR Error:', err));
+
+
+            document.getElementById('addRouteHistoryForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const data = {};
+                formData.forEach((value, key) => { data[key] = value; });
+
+                fetch('https://localhost:7062/api/RouteHistory/Add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(result => {
+                        alert('Route History added successfully!');
+                        this.reset();
+                        fetchDataAndUpdate(); 
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to add Route History');
+                    });
+            });
+        });
+    </script>
+}

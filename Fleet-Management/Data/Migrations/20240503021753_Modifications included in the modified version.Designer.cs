@@ -2,6 +2,7 @@
 using Fleet_Management.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fleet_Management.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240503021753_Modifications included in the modified version")]
+    partial class Modificationsincludedinthemodifiedversion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,11 +162,11 @@ namespace Fleet_Management.Migrations
                     b.Property<long>("Epoch")
                         .HasColumnType("bigint");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
 
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
 
                     b.Property<char>("Status")
                         .HasColumnType("character(1)");

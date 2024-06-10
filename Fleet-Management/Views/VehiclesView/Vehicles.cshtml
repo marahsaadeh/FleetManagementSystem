@@ -1,0 +1,352 @@
+﻿@model IEnumerable<Fleet_Management.VehicleDto>
+
+@{
+    ViewData["Title"] = "Manage Vehicles";
+}
+<style>
+    .btn-success {
+        background-color: #004D4D; 
+    }
+    .btn-primary {
+        background-color: #429690; 
+    }
+    .btn-secondary {
+        background-color: #6c757d; 
+    }
+    .modal-content {
+        padding: 20px; 
+    }
+    .form-group {
+        margin-bottom: 15px; 
+    }
+    .modal-header {
+        background-color: #f8f9fa; 
+    }
+    .small-button {
+           width: 250px;  
+                margin-top: 20px; 
+                margin-bottom: 1px; 
+                margin-left: 20px;
+    font-size: 18px;   
+    line-height: 1;    
+}
+
+</style>
+<div class="card mb-4">
+   
+    <div class="card-header">
+    
+    <h4>@ViewData["Title"]</h4>
+</div>
+
+
+<button type="button" class="btn btn-success small-button" data-toggle="modal" data-target="#addVehicleModal">
+    <i class="fas fa-plus-circle"></i> Add New Vehicle
+</button>
+
+
+
+<div class="modal fade" id="addVehicleModal" tabindex="-1" role="dialog" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addVehicleModalLabel">Add New Vehicle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <form id="addVehicleInfoForm">
+                    <div class="form-group">
+                        <label for="vehicleNumber">Vehicle Number</label>
+                        <input type="number" class="form-control" id="vehicleNumber" name="vehicleNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleType">Vehicle Type</label>
+                        <input type="text" class="form-control" id="vehicleType" name="vehicleType" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Vehicle</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card-body p-5">
+        <div class="table-responsive">
+            <table id="vehicleInfoTable" class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Vehicle ID</th>
+                        <th>Vehicle Number</th>
+                        <th>Vehicle Type</th>
+                     
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+             
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="updateVehicleModal" tabindex="-1" role="dialog" aria-labelledby="updateVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateVehicleModalLabel">Update Vehicle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updateVehicleInfoForm">
+                    <input type="hidden" id="modalVehicleID" name="vehicleID">
+                    <div class="form-group">
+                        <label for="updateVehicleNumber">Vehicle Number</label>
+                        <input type="number" class="form-control" id="updateVehicleNumber" name="vehicleNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateVehicleType">Vehicle Type</label>
+                        <input type="text" class="form-control" id="updateVehicleType" name="vehicleType" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Document text vs JSON Comparison
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="comparisonTable" class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Document text</th>
+                        <th>Returned JSON Value (What is shown when examined in Postman)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre id="specificationField">
+
+"VehicleID
+1.1.1.	VehicleNumber
+1.1.2.	VehicleType
+1.1.3.	LastDirection
+1.1.4.	LastStatus
+1.1.5.	LastAddress
+1.1.6.	and LastPosition (including LastLatitude and LastLongitude)."
+                            </pre>
+                        </td>
+                        <td>
+                            <pre id="jsonDataDisplay"></pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+   
+   
+        function handleResponse(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }
+        function fetchAndDisplayVehicles() {
+            fetch('/api/Vehicles')
+                .then(handleResponse)
+                .then(data => {
+                    displayVehicles(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching vehicle data:', error);
+                    alert(`There was an error fetching the vehicle data: ${error.message}`);
+                });
+        }
+       
+
+        function displayVehicles(fullData) {
+            const fleetTableBody = document.querySelector('#vehicleInfoTable tbody');
+
+            const jsonDataDisplay = document.querySelector('#jsonDataDisplay');
+            fleetTableBody.innerHTML = ''; 
+            console.log("Displaying full data:", fullData);  
+
+            const vehicleData = fullData.DicOfDT.Vehicles;
+            vehicleData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.VehicleID}</td>
+                    <td>${item.VehicleNumber}</td>
+                    <td>${item.VehicleType}</td>
+                   
+                    <td>
+                         <button type="button" class="btn btn-warning" onclick="openUpdateModal(${item.VehicleID}, '${item.VehicleNumber}', '${item.VehicleType}')"style="background-color: transparent; color: #80FC80; border: none;">
+                                    <i class="bi bi-pencil-fill"></i> 
+                        </button>
+        <button onclick="deleteVehicle(${item.VehicleID})" style="background-color: transparent; color: #FF7F50; border: none;"><i class="bi bi-x-circle-fill"></i></button>
+
+
+
+                   </td>`;
+                fleetTableBody.appendChild(row);
+            });
+
+            jsonDataDisplay.textContent = JSON.stringify(fullData, null, 2);
+        }
+
+        function openUpdateModal(vehicleId, vehicleNumber, vehicleType) {
+            document.getElementById('modalVehicleID').value = vehicleId;
+            document.getElementById('vehicleNumber').value = vehicleNumber;
+            document.getElementById('vehicleType').value = vehicleType;
+            $('#updateVehicleModal').modal('show');
+        }
+
+        function addVehicle(formData) {
+    const requestBody = Object.fromEntries(formData);
+    fetch('/api/Vehicles/Add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to add vehicle');
+        return response.json(); 
+    })
+    .then(data => {
+        alert(`Vehicle added successfully!\n\nRequest:\n${JSON.stringify(requestBody, null, 2)}\n\nResponse:\n${JSON.stringify(data, null, 2)}`);
+        $('#addVehicleModal').modal('hide'); 
+        fetchAndDisplayVehicles();
+    })
+    .catch(error => {
+        console.error('Error adding vehicle:', error);
+        alert('Failed to add vehicle: ' + error.message);
+    });
+}
+
+
+       function updateVehicle(formData) {
+    const vehicleId = formData.get('vehicleID');
+    const requestBody = Object.fromEntries(formData);
+    formData.delete('vehicleID'); 
+
+    fetch(`/api/vehicles/${vehicleId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to update vehicle');
+        return response.json();
+    })
+    .then(data => {
+        console.log('Vehicle updated:', data);
+        alert(`Vehicle updated successfully!\n\nRequest:\n${JSON.stringify(requestBody, null, 2)}\n\nResponse:\n${JSON.stringify(data, null, 2)}`);
+        fetchAndDisplayVehicles(); 
+        $('#updateVehicleModal').modal('hide'); 
+    })
+    .catch(error => {
+        console.error('Error updating vehicle:', error);
+        alert('Failed to update vehicle: ' + error.message);
+    });
+}
+
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const addForm = document.getElementById('addVehicleInfoForm');
+            addForm.addEventListener('submit', function (event) {
+                event.preventDefault(); 
+                addVehicle(new FormData(addForm));
+            });
+
+            
+            const updateForm = document.getElementById('updateVehicleInfoForm');
+            updateForm.addEventListener('submit', function (event) {
+                event.preventDefault(); 
+                updateVehicle(new FormData(updateForm));
+            });
+
+            fetchAndDisplayVehicles();
+        });
+
+
+
+     function deleteVehicle(vehicleId) {
+    fetch(`/api/Vehicles/${vehicleId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to delete vehicle');
+        return response.json();  
+    })
+    .then(data => {
+        console.log('Vehicle deleted:', data);
+        alert(`Vehicle deleted successfully!\n\nResponse:\n${JSON.stringify(data, null, 2)}`);
+        fetchAndDisplayVehicles();
+    })
+    .catch(error => {
+        console.error('Error deleting vehicle:', error);
+        alert('Failed to delete vehicle: ' + error.message);
+    });
+}
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
